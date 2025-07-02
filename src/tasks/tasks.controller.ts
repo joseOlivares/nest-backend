@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { Task } from './interfaces/task/task.interface';
+import { CreateTaskDto } from './dto/create-task.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -17,7 +18,10 @@ export class TasksController {
   }
 
   @Post()
-  createTask(@Body() task: Task) {
+  @UsePipes(new ValidationPipe()) // This decorator is used to apply validation pipes to the incoming request body
+  // The UsePipes decorator is typically used to apply validation or transformation pipes to the incoming request body
+  // It ensures that the incoming data is validated according to the rules defined in the
+  createTask(@Body() task: CreateTaskDto) {
     return this.taskService.createTask(task);
   }
 
