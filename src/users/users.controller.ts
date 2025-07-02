@@ -12,7 +12,7 @@ export class UsersController {
   }
 
   @Post() // This is a POST request handler for the /users route, which returns a message
-  @UsePipes(new ValidationPipe()) // This decorator is used to apply validation pipes to the incoming request body
+  @UsePipes(new ValidationPipe({ disableErrorMessages: true })) // This decorator is used to apply validation pipes to the incoming request body
   // The UsePipes decorator is typically used to apply validation or transformation pipes to the incoming request body
   createUser(@Body() user: CreateUserDto) {
     console.log(user);
