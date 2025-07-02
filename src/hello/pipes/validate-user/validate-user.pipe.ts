@@ -17,8 +17,6 @@ export class ValidateUserPipe implements PipeTransform {
     console.log('Validating user data:', value);
 
     const ageNumber = parseInt(value.age?.toString() ?? '', 10) ?? NaN;
-
-
     if (value.age !== undefined && isNaN(ageNumber)) {
       throw new HttpException('Age must be a number', HttpStatus.BAD_REQUEST);
     }
