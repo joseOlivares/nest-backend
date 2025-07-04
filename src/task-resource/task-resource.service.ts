@@ -40,7 +40,7 @@ export class TaskResourceService {
         },
       },
     });
-    //HAciendo consulta SQL
+    //Haciendo consulta SQL directa con Prisma
     /*    return this.prismaService.$queryRaw`
       SELECT * FROM Task WHERE LOWER(title) LIKE LOWER(${`%${title}%`})
     `;
