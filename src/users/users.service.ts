@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto/create-user.dto';
 import { PrismaService } from 'src/services/prisma/prisma.service';
+import { Prisma } from 'generated/prisma';
 
 @Injectable()
 export class UsersService {
@@ -19,7 +20,8 @@ export class UsersService {
     this.users.push(user);
   }
 
-  async createInDatabase(user: CreateUserDto) {
+  async createInDatabase(user: Prisma.UserCreateInput) {
+    //antes usabamos CreateUserDto pero podemos usar Prisma.UserCreateInput
     return this.prismaService.user
       .create({
         data: {
@@ -38,7 +40,6 @@ export class UsersService {
         throw new Error('Failed to create user in database');
       });
   }
-
 
   async getAllUsersFromDatabase() {
     return this.prismaService.user.findMany({
