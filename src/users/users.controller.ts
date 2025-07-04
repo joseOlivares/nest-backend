@@ -11,11 +11,22 @@ export class UsersController {
     return this.usersService.getUsers();
   }
 
-  @Post() // This is a POST request handler for the /users route, which returns a message
+  @Post('local') // This is a POST request handler for the /users route, which returns a message
   //@UsePipes(new ValidationPipe({ disableErrorMessages: true })) // This decorator is used to apply validation pipes to the incoming request body
   // The UsePipes decorator is typically used to apply validation or transformation pipes to the incoming request body
-  createUser(@Body() user: CreateUserDto) {
+  createLocalUser(@Body() user: CreateUserDto) {
     console.log(user);
     return this.usersService.createUser(user);
+  }
+
+  @Post('create')
+  async createUserInDatabase(@Body() user: CreateUserDto) {
+    console.log(user);
+    return this.usersService.createInDatabase(user);
+  }
+
+  @Get('all')
+  async getAllUsersFromDatabase() {
+    return this.usersService.getAllUsersFromDatabase();
   }
 }

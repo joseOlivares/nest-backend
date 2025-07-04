@@ -5,10 +5,11 @@ import { UsersModule } from './users/users.module';
 import { ProjectsModule } from './projects/projects.module';
 import { HelloController } from './hello/hello.controller';
 import { UserResourceModule } from './user-resource/user-resource.module';
+import { PrismaService } from './services/prisma/prisma.service';
 
 @Module({
   imports: [TasksModule, AuthModule, UsersModule, ProjectsModule, UserResourceModule],
   controllers: [HelloController],
-  providers: [],
+  providers: [PrismaService],
 })
 export class AppModule {}

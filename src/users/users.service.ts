@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto/create-user.dto';
+import { PrismaService } from 'src/services/prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
   private users: CreateUserDto[] = [
-    { name: 'John', email: 'j@j.com', password: '123' },
-    { name: 'Jane', email: 'j@j.com', password: '123' },
+    { name: 'John', username: 'john316', email: 'jhon@company.com', password: '123' },
+    { name: 'Jane', username: 'jane50', email: 'jane@company.com', password: '123' },
   ];
+
+  constructor(private prismaService: PrismaService) {}
 
   getUsers() {
     return this.users;
@@ -14,5 +17,35 @@ export class UsersService {
 
   createUser(user: CreateUserDto) {
     this.users.push(user);
+  }
+
+  async createInDatabase(user: CreateUserDto) {
+    return this.prismaService.user
+      .create({
+        data: {
+          name: user.name,
+          username: user.username,
+          email: user.email,
+          password: user.password,
+        },
+        //esta configuración la agregamos
+        omit: {
+          password: true,
+        }, // Omit password from the response
+      })
+      .catch(error => {
+        console.error('Error creating user in database:', error);
+        throw new Error('Failed to create user in database');
+      });
+  }
+
+
+  async getAllUsersFromDatabase() {
+    return this.prismaService.user.findMany({
+      //esta configuración la agregamos
+      omit: {
+        password: true,
+      }, // Omit password from the response
+    });
   }
 }
